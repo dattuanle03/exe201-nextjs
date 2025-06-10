@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
 
-// GET đúng — dùng để fetch order
+// GET — Fetch Order by ID
 export async function GET(
-  _request: NextRequest,
-  { params }: { params: { orderId: string } }
+  request: NextRequest,
+  context: { params: { orderId: string } }
 ) {
-  const { orderId } = params;
+  const { orderId } = context.params;
   await connectDB();
   const order = await Order.findById(orderId);
   if (!order) {
@@ -16,12 +16,12 @@ export async function GET(
   return NextResponse.json(order);
 }
 
-// PUT — update order
+// PUT — Update Order by ID
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  context: { params: { orderId: string } }
 ) {
-  const { orderId } = params;
+  const { orderId } = context.params;
   await connectDB();
 
   try {
@@ -52,3 +52,4 @@ export async function PUT(
     return NextResponse.json({ error: "Internal server error" }, { status: 500 });
   }
 }
+
