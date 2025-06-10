@@ -2,14 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
 
-// ✅ GET ORDER
+// GET đúng — dùng để fetch order
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: { orderId: string } }
 ) {
   const { orderId } = params;
   await connectDB();
-
   const order = await Order.findById(orderId);
   if (!order) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
@@ -17,7 +16,7 @@ export async function GET(
   return NextResponse.json(order);
 }
 
-// ✅ UPDATE ORDER
+// PUT — update order
 export async function PUT(
   request: NextRequest,
   { params }: { params: { orderId: string } }
