@@ -1,5 +1,12 @@
 // đúng kiểu RouteContext của Next.js
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from 'next/server';
+
+export async function GET(request: NextRequest, { params }: { params: { orderId: string } }) {
+  const { orderId } = params;
+
+  return new Response(`Order ID: ${orderId}`);
+}
+
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
 
