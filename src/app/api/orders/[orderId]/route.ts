@@ -1,22 +1,15 @@
-// đúng kiểu RouteContext của Next.js
-import { NextRequest } from 'next/server';
-
-export async function GET(request: NextRequest, { params }: { params: { orderId: string } }) {
-  const { orderId } = params;
-
-  return new Response(`Order ID: ${orderId}`);
-}
-
+import { NextRequest, NextResponse } from 'next/server';
 import connectDB from "@/lib/mongodb";
 import Order from "@/models/Order";
 
 // ✅ GET ORDER
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: { orderId: string } }
 ) {
   const { orderId } = params;
   await connectDB();
+
   const order = await Order.findById(orderId);
   if (!order) {
     return NextResponse.json({ error: "Order not found" }, { status: 404 });
